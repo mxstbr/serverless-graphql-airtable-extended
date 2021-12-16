@@ -11,6 +11,12 @@ const getAllProjects = async () => {
   return projects.map(({ id, fields }) => transformResponse(id, fields))
 }
 
+const getProject = async (input) => {
+  const project = await table.find(input.id)
+  const { id, fields } = project
+  return transformResponse(id, fields)
+}
+
 const addProject = async (input) => {
   const { name, description, date } = input.project
   const project = await table.create([
@@ -44,5 +50,6 @@ const transformResponse = (id, fields) => ({
 })
 
 exports.getAllProjects = getAllProjects
+exports.getProject = getProject
 exports.addProject = addProject
 exports.updateProject = updateProject

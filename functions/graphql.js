@@ -1,5 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server-lambda')
-const { getAllProjects, addProject, updateProject } = require('./utils/airtable')
+const { getAllProjects, addProject, updateProject, getProject } = require('./utils/airtable')
 
 const typeDefs = gql`
   type Project {
@@ -23,12 +23,13 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addProject(project: AddProjectInput): Project
+    createProject(project: AddProjectInput): Project
     updateProject(project: UpdateProjectInput): Project
   }
 
   type Query {
     projects: [Project]
+    project(id: ID): Project
   }
 `
 
@@ -37,12 +38,15 @@ const resolvers = {
     projects: () => {
       return getAllProjects()
     },
+    project: (_, args) => {
+      return getProject(args)
+    }
   },
   Mutation: {
     updateProject: (_, args) => {
       return updateProject(args)
     },
-    addProject: (_, args) => {
+    createProject: (_, args) => {
       return addProject(args)
     },
   },
