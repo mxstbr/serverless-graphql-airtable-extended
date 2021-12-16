@@ -43,8 +43,15 @@ const resolvers = {
     }
   },
   Mutation: {
-    updateProject: (_, args) => {
-      return updateProject(args)
+    updateProject: (_, { project }) => {
+      return updateProject({
+        id: project.id,
+        fields: {
+          name: project.name,
+          date: project.date,
+          description: project.description
+        }
+      })
     },
     createProject: (_, args) => {
       return addProject(args)

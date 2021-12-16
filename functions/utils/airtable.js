@@ -34,9 +34,7 @@ const addProject = async (input) => {
 
 const updateProject = async (input) => {
   const project = await table.update([
-    {
-      fields: input.project,
-    },
+    input,
   ])
   const { id, fields } = project[0]
   return transformResponse(id, fields)
